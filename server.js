@@ -15,10 +15,12 @@ MongoClient.connect('mongodb://YOURUSERNAME:YOURPASSWORD@ds231228.mlab.com:31228
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
+app.use(express.static('public'))
 
 
 app.get('/', (req, res) => {
-  var cursor = db.collection('quotes').find().toArray(function(err, result) {
+  var cursor = db.collection('quotes').find().toArray((err, result) => {
     console.log(result)
     res.render('index.ejs', {quotes: result})
   })
@@ -31,3 +33,19 @@ app.post('/quotes', (req, res) => {
     res.redirect('/')
   });
 });
+
+app.put('/quotes', (req, res) => {
+  db.collection('quotes')
+  .findOneAndUpdate({name: 'Test'}, {
+    $set: {
+      name: req.body.name,
+      quote: req.body.quote
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
