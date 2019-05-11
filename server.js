@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 var db
 // Remember to change YOUR_USERNAME and YOUR_PASSWORD to your username and password!
-MongoClient.connect('mongodb://YOURUSERNAME:YOURPASSWORD@ds231228.mlab.com:31228/quotesdb', (err, client) => {
+MongoClient.connect('mongodb://testuser:abcd1234@ds231228.mlab.com:31228/quotesdb', (err, client) => {
   if (err) return console.log(err)
   db = client.db('quotesdb')
   app.listen(3000, () => {
